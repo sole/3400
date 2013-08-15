@@ -404,7 +404,7 @@ window.onload = function() {
 				gain = audioContext.createGain();
 			
 			panner.setPosition( position.x, position.y, position.z );
-			panner.panningModel = 'HRTF';
+			panner.panningModel = 'equalpower'; // 'HRTF' not in Firefox Aurora yet
 			
 			source.loop = true;
 			source.buffer = sound.buffer;
