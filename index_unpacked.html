@@ -2,25 +2,6 @@
 	<head>
 		<meta charset="utf-8"> 
 		<title>3400 miles below</title>
-				<script type="text/javascript" src="http://sole.github.com/cdn/Detector.js"></script>
-		<script type="text/javascript" src="http://sole.github.com/cdn/AudioDetector.js"></script>
-		<script type="text/javascript" src="http://sole.github.com/cdn/Tween-7dev.js"></script>
-		<script type="text/javascript" src="http://sole.github.com/cdn/Three-r49.js"></script>
-		<script type="text/javascript" src="js/utils.js"></script>
-		<script type="text/javascript" src="js/StringFormat.js"></script>
-		<script type="text/javascript" src="js/CollisionUtils.js"></script>
-		<script type="text/javascript" src="js/3400_DisplayControls.js"></script>
-		<script type="text/javascript" src="js/3400_Objects.js"></script>
-		<script type="text/javascript" src="js/3400.js"></script>
-		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-384699-9']);
-			_gaq.push(['_trackPageview']);
-		  (function() {
-		       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s)				 })();
-		</script>
 	</head>
 	<body>
 		<style>
@@ -78,6 +59,7 @@
 					}
 					#start {
 						cursor: hand;
+						cursor: pointer;
 						font-size: 140%;
 						border-bottom:1px solid #080;
 						display: inline;
@@ -121,5 +103,25 @@
 			<div id="cockpit"></div>
 		</div>
 		<div id="container"></div>
+		<script type="text/javascript" src="js/libs/AudioContextMonkeyPatch.js"></script>
+		<script type="text/javascript" src="js/libs/Detector.js"></script>
+		<script type="text/javascript" src="js/libs/AudioDetector.js"></script>
+		<script type="text/javascript" src="js/libs/Tween-7dev.js"></script>
+		<script type="text/javascript" src="js/libs/Three-r49.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/StringFormat.js"></script>
+		<script type="text/javascript" src="js/CollisionUtils.js"></script>
+		<script type="text/javascript" src="js/3400_DisplayControls.js"></script>
+		<script type="text/javascript" src="js/3400_Objects.js"></script>
+		<script type="text/javascript" src="js/3400.js"></script>
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-384699-9']);
+			_gaq.push(['_trackPageview']);
+		  (function() {
+		       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s)				 })();
+		</script>
 	</body>
 </html>
