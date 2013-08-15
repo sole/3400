@@ -306,7 +306,7 @@ window.onload = function() {
 	}
 
 	function setupSound() {
-		audioContext = new webkitAudioContext();
+		audioContext = new AudioContext();
 		for(var i = 0; i < soundURLs.length; i++) {
 			sounds.push({url: soundURLs[i], loaded: false, loading: false});
 		}
@@ -319,18 +319,23 @@ window.onload = function() {
 		request.open('GET', sound.url, true);
 		request.responseType = 'arraybuffer';
 		request.onload = function() {
-			var buffer = audioContext.createBuffer(request.response, false);
-			addSound(sound.url, buffer);
-		}
+			audioContext.decodeAudioData(request.response, function(buffer) {
+				if(buffer) {
+					addSound(sound.url, buffer);
+				}
+			});
+		};
 
 		request.send();
 	}
 
 	function addSound(url, buffer) {
 
-		for(var i = 0; i < sounds.length; i++) {
-			var s = sounds[i];
-			if(s.url == url && s.loaded == false) {
+		var i, s;
+
+		for(i = 0; i < sounds.length; i++) {
+			s = sounds[i];
+			if(s.url == url && s.loaded === false) {
 				s.loaded = true;
 				s.loading = false;
 				s.buffer = buffer;
@@ -339,8 +344,8 @@ window.onload = function() {
 		}
 
 		var allLoaded = true;
-		for(var i = 0; i < sounds.length; i++) {
-			var s = sounds[i];
+		for(i = 0; i < sounds.length; i++) {
+			s = sounds[i];
 			if(!s.loaded && !s.loading) {
 				loadFile(s);
 				allLoaded = false;
@@ -361,30 +366,31 @@ window.onload = function() {
 				animate();
 
 				var ship_tween = new TWEEN.Tween( ship.position )
-				.to( { x: 0, y: 10, z: 0 }, 25000)
-				.onComplete( function() {
-					starting = false;
-				})
-				.easing( TWEEN.Easing.Quadratic.Out )
-				.start();
+					.to( { x: 0, y: 10, z: 0 }, 25000)
+					.onComplete( function() {
+						starting = false;
+					})
+					.easing( TWEEN.Easing.Quadratic.Out )
+					.start();
 
 			}, 1000);
 		}
 	}
 
 	function startPlayingAudio() {
-		var almostNow = audioContext.currentTime + 0.020,
+		var i, pos,
+			almostNow = audioContext.currentTime + 0.020,
 			preCompressorGain,
 			compressor;
 
-		preCompressorGain = audioContext.createGainNode();
+		preCompressorGain = audioContext.createGain();
 		preCompressorGain.gain.value = 0.9;
 
 		if(audioContext.createDynamicsCompressor) {
 			compressor = audioContext.createDynamicsCompressor();
 			compressor.ratio = 2.0;
 		} else {
-			compressor = audioContext.createGainNode();
+			compressor = audioContext.createGain();
 			compressor.gain.value = 1.4;
 		}
 
@@ -392,13 +398,14 @@ window.onload = function() {
 
 		compressor.connect(audioContext.destination);
 
-		function placeSound( sound, position, gain ) {
+		function placeSound( sound, position, gainAmount ) {
 			var panner = audioContext.createPanner(),
 				source = audioContext.createBufferSource(),
-				gain = audioContext.createGainNode();
+				gain = audioContext.createGain();
 			
 			panner.setPosition( position.x, position.y, position.z );
-			panner.panningModel = 1; // AudioPannerNode.EQUAL_POWER;
+			panner.panningModel = 'HRTF';
+			
 			source.loop = true;
 			source.buffer = sound.buffer;
 			source.connect( panner );
@@ -410,15 +417,17 @@ window.onload = function() {
 
 			sound.buffer.sampleRate = 44100; // XXX
 
+			gain.gain.value = gainAmount;
 			gain.connect( preCompressorGain );
 
-			source.noteOn(almostNow);
+			source.start(almostNow);
 		}
 
 		placeSound( sounds[2], new THREE.Vector3(0, 15, 0), 0.8);
 
 		var m = 500,
 			genGain = 0.9;
+
 		placeSound( sounds[0], new THREE.Vector3(-m, 0, m), genGain);
 		placeSound( sounds[0], new THREE.Vector3(m, 0, -m), genGain);
 		placeSound( sounds[1], new THREE.Vector3(m, 0, -m), genGain);
@@ -426,18 +435,16 @@ window.onload = function() {
 
 		// gurrus -> beeps
 		var gurruGain = 4.0 / gurrus.children.length;
-		for(var i = 0; i < gurrus.children.length; i++) {
-			var pos = gurrus.children[i].matrixWorld.getPosition().clone();
-			
+		for(i = 0; i < gurrus.children.length; i++) {
+			pos = gurrus.children[i].matrixWorld.getPosition().clone();
 			pos.y += 2;
-
 			placeSound( sounds[4], pos, gurruGain );
 		}
 
 		// rotobugs -> guitar
 		var rotoGain = 2.0 / rotaBugs.children.length;
-		for(var i = 0; i < rotaBugs.children.length; i++) {
-			var pos = rotaBugs.children[i].matrixWorld.getPosition().clone();
+		for(i = 0; i < rotaBugs.children.length; i++) {
+			pos = rotaBugs.children[i].matrixWorld.getPosition().clone();
 			placeSound( sounds[3], pos, rotoGain );
 		}
 	}
