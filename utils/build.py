@@ -2,6 +2,11 @@ import os
 import urllib.request, urllib.parse, urllib.error
 
 files = [
+	'js/libs/AudioContextMonkeyPatch.js',
+	'js/libs/Detector.js',
+	'js/libs/AudioDetector.js',
+	'js/libs/Tween-7dev.js',
+	'js/libs/Three-r49.js',
 	'js/3400.js',
 	'js/3400_DisplayControls.js',
 	'js/3400_Objects.js',
