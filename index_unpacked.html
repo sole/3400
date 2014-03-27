@@ -2,7 +2,7 @@
 	<head>
 		<meta charset="utf-8"> 
 		<title>3400 miles below</title>
-		<meta name="viewport" content="width=device-width">
+		<meta name="viewport" content="width=device-width, user-scalable=no">
 	</head>
 	<body>
 		<style>
@@ -11,12 +11,16 @@
 				-webkit-box-sizing: border-box;
 			}
 
+			html, body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+				overflow: hidden;
+			}
+
 			body {
 				background: #000;
 				color: #0f0;
-				margin: 0;
-				padding: 0;
-				overflow: hidden;
 				font-weight: normal;
 				font-family: Georgia, Times New Roman, serif;
 				font-style: italic;
