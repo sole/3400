@@ -1,46 +1,113 @@
 <html>
 	<head>
-		<meta charset="utf-8"> 
+		<meta charset="utf-8" />
 		<title>3400 miles below</title>
-		<script type="text/javascript" src="http://sole.github.com/cdn/Detector.js"></script>
-		<script type="text/javascript" src="http://sole.github.com/cdn/AudioDetector.js"></script>
-		<script type="text/javascript" src="http://sole.github.com/cdn/Tween-7dev.js"></script>
-		<script type="text/javascript" src="http://sole.github.com/cdn/Three-r49.js"></script>
+
 		<script type="text/javascript" src="js/main_compressed.js"></script>
-		
-		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-384699-9']);
-			_gaq.push(['_trackPageview']);
-		  (function() {
-		       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s)				 })();
-		</script>
 	</head>
 	<body>
 		<style>
-			body{background:#000;color:#0f0;overflow:hidden;font-weight:400;font-family:Georgia, Times New Roman, serif;font-style:italic;margin:0;padding:0}
-#intro *{-webkit-transition-duration:.2s;-webkit-transition-function:ease-in-out;transition-duration:.2s;transition-timing-function:ease-in-out}
-a{color:#0f0;text-decoration:none;border-bottom:1px solid #080;padding:1px}
-a:hover{border-color:#0f0}
-h1{text-shadow:3px 3px #000}
-#intro_wrapper{position:absolute;left:0;top:0;width:100%;height:100%;text-shadow:1px 1px #000;z-index:0;-webkit-transition-duration:1s;transition-duration:1s}
-#intro{background:rgba(0,0,0,0.6);width:400px;height:200px;text-align:center;box-shadow:0 0 20px rgba(0,0,0,0.5);border-radius:10px;position:relative;margin:auto;padding:1em}
-#desc{font-size:110%}
-#start{cursor:pointer;font-size:140%;border-bottom:1px solid #080;display:inline}
-.loading #desc,.loading h1,.loading a{color:#040}
-.loading #start{font-size:170%}
-#cockpit_wrapper{position:absolute;left:0;bottom:0;width:100%;opacity:0}
-#cockpit{width:300px;text-align:center;margin:0 auto}
-#container{position:absolute;top:80px;left:0;width:100%;height:100%}
+			body {
+				background: #000;
+				color: #0f0;
+				overflow: hidden;
+				font-weight: 400;
+				font-family: Georgia, Times New Roman, serif;
+				font-style: italic;
+				margin: 0;
+				padding: 0;
+			}
+			#intro * {
+				-webkit-transition-duration: 0.2s;
+				-webkit-transition-function: ease-in-out;
+				transition-duration: 0.2s;
+				transition-timing-function: ease-in-out;
+			}
+			a {
+				color: #0f0;
+				text-decoration: none;
+				border-bottom: 1px solid #080;
+				padding: 1px;
+			}
+			a:hover {
+				border-color: #0f0;
+			}
+			h1 {
+				text-shadow: 3px 3px #000;
+			}
+			#intro_wrapper {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				text-shadow: 1px 1px #000;
+				z-index: 0;
+				-webkit-transition-duration: 1s;
+				transition-duration: 1s;
+			}
+			#intro {
+				background: rgba(0, 0, 0, 0.6);
+				width: 400px;
+				height: 200px;
+				text-align: center;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+				border-radius: 10px;
+				position: relative;
+				margin: auto;
+				padding: 1em;
+			}
+			#desc {
+				font-size: 110%;
+			}
+			#start {
+				cursor: pointer;
+				font-size: 140%;
+				border-bottom: 1px solid #080;
+				display: inline;
+			}
+			.loading #desc,
+			.loading h1,
+			.loading a {
+				color: #040;
+			}
+			.loading #start {
+				font-size: 170%;
+			}
+			#cockpit_wrapper {
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				opacity: 0;
+			}
+			#cockpit {
+				width: 300px;
+				text-align: center;
+				margin: 0 auto;
+			}
+			#container {
+				position: absolute;
+				top: 80px;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
 		</style>
 		<div id="intro_wrapper">
 			<div id="intro">
 				<h1>3400 miles below</h1>
-				<p id="desc">An interactive demo by <a href="http://5013.es/">5013</a></p>
+				<p id="desc">
+					An interactive demo by <a href="https://5013.es/">5013</a>
+				</p>
 				<p id="start">START</p>
-				<p><a href="http://5013.es/p/h/">About</a> - <a href="https://github.com/sole/3400">Source code</a> - <a href="http://www.youtube.com/watch?v=luACMw6iL9k">Video capture</a></p>
+				<p>
+					<a href="https://5013.es/p/h/">About</a> -
+					<a href="https://github.com/sole/3400">Source code</a> -
+					<a href="https://www.youtube.com/watch?v=luACMw6iL9k"
+						>Video capture</a
+					>
+				</p>
 			</div>
 		</div>
 		<div id="cockpit_wrapper">

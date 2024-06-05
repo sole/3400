@@ -21,7 +21,7 @@ outfile = '../js/main_compressed.js'
 
 def get_response(data):
 	post_data = urllib.parse.urlencode(data)
-	request = urllib.request.Request('http://closure-compiler.appspot.com/compile', post_data.encode())
+	request = urllib.request.Request('https://closure-compiler.appspot.com/compile', post_data.encode())
 	response = urllib.request.urlopen( request )
 
 	compressed = response.read()
