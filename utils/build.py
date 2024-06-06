@@ -2,17 +2,17 @@ import os
 import urllib.request, urllib.parse, urllib.error
 
 files = [
+	'js/libs/Stadista.js',
 	'js/libs/AudioContextMonkeyPatch.js',
 	'js/libs/Detector.js',
-	'js/libs/AudioDetector.js',
 	'js/libs/Tween-7dev.js',
 	'js/libs/Three-r49.js',
-	'js/3400.js',
-	'js/3400_DisplayControls.js',
-	'js/3400_Objects.js',
 	'js/CollisionUtils.js',
 	'js/StringFormat.js',
-	'js/utils.js'
+	'js/utils.js',
+	'js/3400_DisplayControls.js',
+	'js/3400_Objects.js',
+	'js/3400.js',
 ]
 
 outfile = '../js/main_compressed.js'
