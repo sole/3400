@@ -441,17 +441,22 @@ window.onload = function () {
 				source = audioContext.createBufferSource(),
 				gain = audioContext.createGain();
 
-			panner.setPosition(position.x, position.y, position.z);
-			panner.panningModel = "equalpower"; // 'HRTF' not in Firefox Aurora yet
+			panner.positionX.setValueAtTime(position.x, audioContext.currentTime);
+			panner.positionY.setValueAtTime(position.y, audioContext.currentTime);
+			panner.positionZ.setValueAtTime(position.z, audioContext.currentTime);
+			panner.panningModel = "equalpower"; //"equalpower"; // 'HRTF' not in Firefox Aurora yet
 
 			source.loop = true;
 			source.buffer = sound.buffer;
 			source.connect(panner);
 			panner.connect(gain);
 
-			panner.coneOuterGain = 1;
-			panner.coneOuterAngle = 180;
-			panner.coneInnerAngle = 0;
+			/*panner.coneOuterGain = 0;
+			panner.coneOuterAngle = 45;
+			panner.coneInnerAngle = 10;
+			panner.orientationX.value = 0;
+			panner.orientationY.value = 1.0;
+			panner.orientationZ.value = 0;*/
 
 			sound.buffer.sampleRate = 44100; // XXX
 
@@ -485,6 +490,11 @@ window.onload = function () {
 			pos = rotaBugs.children[i].matrixWorld.getPosition().clone();
 			placeSound(sounds[3], pos, rotoGain);
 		}
+
+		// This ensures we always play the sounds from the right places
+		// Otherwise we start with an attenuated and then attenuated sound as the
+		// position is updated in the next render
+		updateSoundPositions(audioContext);
 	}
 
 	// ~~~
@@ -822,6 +832,47 @@ window.onload = function () {
 		}
 	}
 
+	function updateSoundPositions(ac = null) {
+		if (ac === null) {
+			ac = audioContext;
+		}
+		let listener = ac.listener;
+		let now = ac.currentTime + 0.001;
+		var up = ship.up;
+
+		if (listener.positionX) {
+			listener.positionX.setValueAtTime(ship.position.x, now);
+			listener.positionY.setValueAtTime(ship.position.y, now);
+			listener.positionZ.setValueAtTime(ship.position.z, now);
+		} else {
+			listener.setPosition(ship.position.x, ship.position.y, ship.position.z);
+		}
+
+		if (listener.forwardX) {
+			listener.forwardX.setValueAtTime(shipTarget.x, now);
+			listener.forwardY.setValueAtTime(shipTarget.y, now);
+			listener.forwardZ.setValueAtTime(shipTarget.z, now);
+			listener.upX.setValueAtTime(up.x, now);
+			listener.upY.setValueAtTime(up.y, now);
+			listener.upZ.setValueAtTime(up.z, now);
+		} else {
+			listener.setOrientation(
+				shipTarget.x,
+				shipTarget.y,
+				shipTarget.z,
+				up.x,
+				up.y,
+				up.z
+			);
+		}
+
+		// Deprecated and removed method
+		// audioContext.listener.setVelocity( currentSpeed.x, currentSpeed.y, currentSpeed.z );
+
+		// Sadly also removed
+		// audioContext.listener.speedOfSound = 1560 - ship.position.y; // sound is faster the deeper you go
+	}
+
 	function animate() {
 		requestAnimationFrame(animate);
 
@@ -835,23 +886,11 @@ window.onload = function () {
 		compassDisplay.update();
 		pitchAndRollDisplay.update();
 
-		let listener = audioContext.listener;
-		listener.positionX = ship.positionX;
-		listener.positionY = ship.positionY;
-		listener.positionZ = ship.positionZ;
-		// Deprecated and removed method
-		// audioContext.listener.setVelocity( currentSpeed.x, currentSpeed.y, currentSpeed.z );
-		var up = ship.up;
-		listener.forwardX = shipTarget.x;
-		listener.forwardY = shipTarget.y;
-		listener.forwardZ = shipTarget.z;
-		listener.upX = up.x;
-		listener.upY = up.y;
-		listener.upZ = up.z;
-		// Now we do by hand accessing each separate attribute
-		// audioContext.listener.setOrientation( shipTarget.x, shipTarget.y, shipTarget.z, up.x, up.y, up.z );
-		// Sadly also removed
-		// audioContext.listener.speedOfSound = 1560 - ship.position.y; // sound is faster the deeper you go
+		updateSoundPositions(audioContext);
+
+		// Either with this or with passing the context to updateSoundPositions ... or
+		// otherwise I think the context is being garbage collected and the sound just stops!
+		// window.ac = audioContext;
 
 		var t = Date.now() * 0.0001,
 			t2 = Date.now() * 0.0005;
@@ -861,7 +900,7 @@ window.onload = function () {
 			var bug = rotaBugs.children[i],
 				origVertices = bug.originalVertices,
 				legs = bug.legs,
-				legGeomVert = legs.geometry.vertices,
+				//legGeomVert = legs.geometry.vertices,
 				feet = bug.feet,
 				feetGeomVert = feet.geometry.vertices;
 
