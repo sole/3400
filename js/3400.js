@@ -451,12 +451,12 @@ window.onload = function () {
 			source.connect(panner);
 			panner.connect(gain);
 
-			/*panner.coneOuterGain = 0;
-			panner.coneOuterAngle = 45;
-			panner.coneInnerAngle = 10;
+			panner.coneOuterGain = 0.25;
+			panner.coneOuterAngle = 250;
+			panner.coneInnerAngle = 0;
 			panner.orientationX.value = 0;
 			panner.orientationY.value = 1.0;
-			panner.orientationZ.value = 0;*/
+			panner.orientationZ.value = 0;
 
 			sound.buffer.sampleRate = 44100; // XXX
 
