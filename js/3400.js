@@ -444,7 +444,7 @@ window.onload = function () {
 			panner.positionX.setValueAtTime(position.x, audioContext.currentTime);
 			panner.positionY.setValueAtTime(position.y, audioContext.currentTime);
 			panner.positionZ.setValueAtTime(position.z, audioContext.currentTime);
-			panner.panningModel = "equalpower"; //"equalpower"; // 'HRTF' not in Firefox Aurora yet
+			panner.panningModel = "HRTF"; //"equalpower";
 
 			source.loop = true;
 			source.buffer = sound.buffer;
