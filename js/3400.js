@@ -42,12 +42,20 @@ window.onload = function () {
 		compassDisplay,
 		pitchAndRollDisplay,
 		audioContext,
-		soundURLs = [
+		soundURLs,
+		soundURLsOGG = [
 			"data/malstrom1-arpeggio.ogg", // 0
 			"data/malstrom2-vocoder.ogg", // 1
 			"data/nn-xt1-bass.ogg", // 2
 			"data/nn-xt2-guitar.ogg", // 3
 			"data/subtractor1-beep.ogg", // 4
+		],
+		soundURLsMP3 = [
+			"data/malstrom1-arpeggio.mp3", // 0
+			"data/malstrom2-vocoder.mp3", // 1
+			"data/nn-xt1-bass.mp3", // 2
+			"data/nn-xt2-guitar.mp3", // 3
+			"data/subtractor1-beep.mp3", // 4
 		],
 		sounds = [],
 		loadingText,
@@ -58,15 +66,25 @@ window.onload = function () {
 			intro = document.getElementById("intro"),
 			start = document.getElementById("start");
 
-		// Audio API & WebGL?
-		if (AudioDetector.detects(["webAudioSupport", "oggSupport"])) {
+		// Web Audio API & WebGL?
+		if (
+			window.AudioContext !== undefined ||
+			window.webkitAudioContext !== undefined
+		) {
+			if (document.createElement("audio").canPlayType("audio/ogg")) {
+				soundURLs = soundURLsOGG;
+			} else {
+				soundURLs = soundURLsMP3;
+			}
+
 			if (!Detector.webgl) {
 				Detector.addGetWebGLMessage({ parent: container });
 				return;
 			}
 		}
 
-		container.style.visibility = "hidden";
+		container.parentElement.removeChild(container);
+		// container.style.visibility = "hidden";
 
 		start.addEventListener("click", function startClick(e) {
 			start.removeEventListener("click", startClick);
@@ -940,7 +958,7 @@ window.onload = function () {
 	}
 
 	// GO!
-	preSetup();
-	// setup();
-	// animate();
+	Stadista.initWithGuard(window, 3, () => {
+		preSetup();
+	});
 };
